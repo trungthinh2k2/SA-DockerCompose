@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  mysql8-container:
+    container_name: mysql8-container
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 08062002
+      MYSQL_USER: userdocker
+      MYSQL_PASSWORD: passworddocker
+      MYSQL_DATABASE: dbkt_microservice
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./product-service/database.sql:/docker-entrypoint-initdb.d/init-script.sql
+    networks:
+      - microservices_network
+  product-service-tk:
+    container_name: product-service-tk
+    image: product-service-tk
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql8-container:3306/dbkt_microservice
+      - SPRING_DATASOURCE_USERNAME=userdocker
+      - SPRING_DATASOURCE_PASSWORD=passworddocker
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL= true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SERVER_PORT=8085
+      - SPRING_APPLICATION_NAME=product-service
+    depends_on:
+      - mysql8-container
+    networks:
+      - microservices_network
+networks:
+  microservices_network:
+    driver: bridge

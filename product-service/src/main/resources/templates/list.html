@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>List Product</title>
+    <style>
+        th{
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        td{
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center">List Products</h2>
+    <table width="100%"  border="1px">
+        <thead>
+        <tr content="center" align="center">
+            <td>id</td>
+            <td>name</td>
+            <td>price</td>
+            <td>quantity</td>
+            <td>description</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="e :${products}">
+            <th th:text="${e.getId()}"></th>
+            <th th:text="${e.getProductName()}"></th>
+            <th th:text="${e.getPrice()}"></th>
+            <th th:text="${e.getQuantity()}"></th>
+            <th th:text="${e.getDescription()}"></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
